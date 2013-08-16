@@ -2,10 +2,14 @@
 layout: post
 title: "Google Cast: cast-receiver-list"
 description: ""
-category: 
+category: 'projects'
 tags: []
 ---
 {% include JB/setup %}
+
+#### Introducing cast-receiver-list
+
+[https://github.com/nickspacek/cast-receiver-list][1]
 
 I've been playing around with the [Google Cast API](https://developers.google.com/cast/)
 a little bit, specifically the
@@ -21,8 +25,9 @@ incaranation of the plugin uses jQuery. Since then I started playing
 with AngularJS, having had only a little bit of experience with it. So
 I thought it would be interesting to build a plugin for it as well.
 
-[Here's the project page](https://github.com/nickspacek/cast-receiver-list).
+[Here's the project page][1].
 Currently, there's only a very brief example of how to  use the plugins
 and both still need lots of work. They're mostly there for a POC and as
 some sample code to get started with the Chrome Sender API.
 
+[1]: https://github.com/nickspacek/cast-receiver-list
