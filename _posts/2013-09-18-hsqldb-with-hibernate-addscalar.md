@@ -2,7 +2,7 @@
 layout: post
 title: "HSQLDB with Hibernate: addScalar"
 description: ""
-category: 'Legacy Hibernate Unit Testing'
+category: legacy hibernate unit testing
 tags: [ hibernate, hsqldb ]
 ---
 {% include JB/setup %}

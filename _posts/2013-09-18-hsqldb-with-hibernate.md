@@ -2,8 +2,8 @@
 layout: post
 title: "HSQLDB with Hibernate: User lacks privilege or object not found"
 description: ""
-category: 
-tags: []
+category: legacy hibernate unit testing
+tags: [ hibernate, hsqldb ]
 ---
 {% include JB/setup %}
 
