@@ -7,6 +7,9 @@ tags: []
 ---
 {% include JB/setup %}
 
+**Edit**: I came across [this extension](https://chrome.google.com/webstore/detail/toggle-fullscreen-in-hang/eekfhcmpmchbhkdeplplcljcggddkffb?hl=en)
+which I assume accomplishes something similar, nice.
+
 So I was messing around in a Hangouts session today trying to increase the
 other user's screen share size, and I noticed a few HTML elements that
 controlled the size. I discovered that you can easily resize the video feed.
