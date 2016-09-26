@@ -1,0 +1,15 @@
+{
+  "name": "nickspacek-resume",
+  "version": "0.0.0",
+  "description": "My online resume",
+  "main": "index.js",
+  "dependencies": {
+    "material-design-lite": "~1.0.0-3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD"
+}
