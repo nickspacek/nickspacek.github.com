@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Spring Boot on development</title>
+    <link>http://spacek.ca/tags/spring-boot/</link>
+    <description>Recent content in Spring Boot on development</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 15 Dec 2013 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://spacek.ca/tags/spring-boot/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Spring Boot web application</title>
+      <link>http://spacek.ca/2013/12/15/spring-boot-web-application/</link>
+      <pubDate>Sun, 15 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://spacek.ca/2013/12/15/spring-boot-web-application/</guid>
+      <description>
+
+&lt;p&gt;{% include JB/setup %}&lt;/p&gt;
+
+&lt;p&gt;So I tried out Spring Boot in a new project. I have to say that I like the
+idea of making Spring more accessible to a broader audience. I did come
+across a few things that really sucked up some time.&lt;/p&gt;
+
+&lt;h3 id=&#34;serving-up-jsps:fd83910005ee5c5e6456e85c9c6851f0&#34;&gt;Serving up JSPs&lt;/h3&gt;
+
+&lt;p&gt;In Spring MVC it&amp;rsquo;s pretty standard to have your View based on JSPs. There are
+other engines you can plug in to display your views of course, but most people
+are used to JSPs. Support is standard in JEE/Servlet land anyways. Plus they
+don&amp;rsquo;t really require any unexpected dependencies or much configuration at all.
+Usually.&lt;/p&gt;
+
+&lt;p&gt;I had a heck of a time figuring out why my application was saying it couldn&amp;rsquo;t
+find the index.jsp I had faithfully stuck in my &lt;strong&gt;/src/main/webapp/WEB-INF&lt;/strong&gt;
+directory, and configured as such in the &lt;code&gt;ApplicationContext&lt;/code&gt;. I headed to
+Google looking for &amp;lsquo;spring mvc &amp;ldquo;No mapping found for HTTP request&amp;rdquo;&amp;rsquo; but to my
+chagrin came up pretty empty. Finally in an unrelated post (that I can no
+longer find) someone had a code snippet like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;static class WebConfiguration extends DelegatingWebMvcConfiguration {
+  // ...
+
+  @Override
+  protected void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+    configurer.enable();
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;As it turns out, the default servlet is not enabled by default, meaning that
+only requests matching the dispatcherServlet are handled (and these only
+include Spring Controllers and the like). The default servlet is responsible
+for handling other requests, such as static content and the contents of the
+WEB-INF folder (internally only).&lt;/p&gt;
+
+&lt;p&gt;So with that solved, I ran into my next problem.&lt;/p&gt;
+
+&lt;h3 id=&#34;rendering-jsps:fd83910005ee5c5e6456e85c9c6851f0&#34;&gt;Rendering JSPs&lt;/h3&gt;
+
+&lt;p&gt;Now my JSPs were not getting rendered, they were only showing the file
+contents. This one didn&amp;rsquo;t take as long to track down, only a hour or so. The
+embedded Tomcat being used by Spring Boot (the default servlet container) does
+not include JSP rendering by default. To include it, you need to have the
+Tomcat embedded Jasper library on your classpath (it is automatically
+detected). You can do this via Maven like so:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;dependency&amp;gt;
+    &amp;lt;groupId&amp;gt;org.apache.tomcat.embed&amp;lt;/groupId&amp;gt;
+    &amp;lt;artifactId&amp;gt;tomcat-embed-jasper&amp;lt;/artifactId&amp;gt;
+    &amp;lt;scope&amp;gt;provided&amp;lt;/scope&amp;gt;
+&amp;lt;/dependency&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And there we have it. Hopefully this is useful to someone else.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

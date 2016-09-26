@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>http://spacek.ca/</loc>
+    <lastmod>2016-09-26T11:23:10-03:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://spacek.ca/post/geonb/</loc>
+    <lastmod>2016-09-26T11:23:10-03:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://spacek.ca/2015/03/20/hangouts-fullscreen/</loc>
+    <lastmod>2015-03-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://spacek.ca/2013/12/15/spring-boot-web-application/</loc>
+    <lastmod>2013-12-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://spacek.ca/2013/12/03/remove-jsession-id-cookie/</loc>
+    <lastmod>2013-12-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://spacek.ca/2013/09/18/hsqldb-with-hibernate/</loc>
+    <lastmod>2013-09-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://spacek.ca/2013/09/18/hsqldb-with-hibernate-addscalar/</loc>
+    <lastmod>2013-09-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://spacek.ca/2013/09/06/another-reason-for-406-in-spring-32-and-jackson-2/</loc>
+    <lastmod>2013-09-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://spacek.ca/2013/08/16/google-cast-cast-receiver-list/</loc>
+    <lastmod>2013-08-16T00:00:00+00:00</lastmod>
+  </url>
+  
+</urlset>

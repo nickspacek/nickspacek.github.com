@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hibernate on development</title>
+    <link>http://spacek.ca/tags/hibernate/</link>
+    <description>Recent content in Hibernate on development</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 18 Sep 2013 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://spacek.ca/tags/hibernate/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>HSQLDB with Hibernate: User lacks privilege or object not found</title>
+      <link>http://spacek.ca/2013/09/18/hsqldb-with-hibernate/</link>
+      <pubDate>Wed, 18 Sep 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://spacek.ca/2013/09/18/hsqldb-with-hibernate/</guid>
+      <description>&lt;p&gt;{% include JB/setup %}&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m currently working to add unit tests to a project which currently has no
+tests for its database query layer. Normally I wouldn&amp;rsquo;t worry too much, but
+there are some nasty queries that have cropped up over the years that could
+benefit from some testing.&lt;/p&gt;
+
+&lt;p&gt;This project uses Hibernate and the custom queries are written mainly in some
+MySQL-specific language. Part of the problem with adding tests has been that
+the hbm2ddl tool hasn&amp;rsquo;t been able to reliably generate the database schema due
+to some strange approaches to ID generation and other MySQL-specific code.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve managed to get the hbm2ddl operation running somewhat and am tackling
+issues as they arise. After getting some basic tests to run, I decided to go
+after one of the methods using custom SQL (in Hibernate lingo, createSQLQuery).
+One issue that took a while to figure out was this join syntax:&lt;/p&gt;
+
+
+SELECT * FROM TableA a
+JOIN TableB b USING (tableId)
+
+
+&lt;p&gt;Even though TABLEA and TABLEB both have the tableId column, I was getting
+&amp;ldquo;User lacks privilege or object not found: TABLEB.TABLEID&amp;rdquo;. Changing to this
+syntax solved the problem:&lt;/p&gt;
+
+&lt;p&gt;
+SELECT * FROM TableA a
+JOIN TableB b USING (a.tableId = b.tableId)
+&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>HSQLDB with Hibernate: addScalar</title>
+      <link>http://spacek.ca/2013/09/18/hsqldb-with-hibernate-addscalar/</link>
+      <pubDate>Wed, 18 Sep 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://spacek.ca/2013/09/18/hsqldb-with-hibernate-addscalar/</guid>
+      <description>&lt;p&gt;{% include JB/setup %}&lt;/p&gt;
+
+&lt;p&gt;To continue this series, I just have another little cautionary bit of advice
+regarding using &lt;code&gt;addScalar&lt;/code&gt; with your &lt;code&gt;createSQLQuery(...)&lt;/code&gt; operations. In
+MySQL, a query like this:&lt;/p&gt;
+
+
+SELECT obj.name, other.name, third.name
+FROM obj, other, third
+
+
+&lt;p&gt;Will give the full name of those columns in the &amp;ldquo;result set metadata&amp;rdquo; that
+Hibernate accesses. So when you use &lt;code&gt;addScalar&lt;/code&gt;, you can just say:&lt;/p&gt;
+
+
+.addScalar(&#34;obj.name&#34;)
+.addScalar(&#34;other.name&#34;)
+.addScalar(&#34;third.name&#34;)
+
+
+&lt;p&gt;However, in other database engines the columns might come back in the metadata
+as &lt;code&gt;[ name, name, name ]&lt;/code&gt;; when you try to use &lt;code&gt;addScalar&lt;/code&gt; with the full path,
+you will get an error. (I don&amp;rsquo;t believe that just calling &lt;code&gt;addScalar&lt;/code&gt; once with
+&amp;ldquo;name&amp;rdquo; will apply to each of the three occurrences either, but I haven&amp;rsquo;t
+checked).&lt;/p&gt;
+
+&lt;p&gt;The way I solved it for HSQLDB isn&amp;rsquo;t rocket science:&lt;/p&gt;
+
+&lt;p&gt;
+SELECT obj.name objName, other.name otherName, third.name thirdName
+FROM obj, other, third
+&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

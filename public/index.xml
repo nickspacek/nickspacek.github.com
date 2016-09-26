@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>development</title>
+    <link>http://spacek.ca/</link>
+    <description>Recent content on development</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 26 Sep 2016 11:23:10 -0300</lastBuildDate>
+    <atom:link href="http://spacek.ca/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>GeoNB Mobile</title>
+      <link>http://spacek.ca/post/geonb/</link>
+      <pubDate>Mon, 26 Sep 2016 11:23:10 -0300</pubDate>
+      
+      <guid>http://spacek.ca/post/geonb/</guid>
+      <description>&lt;p&gt;I was messing around with &lt;a href=&#34;http://www.snb.ca/geonb1/&#34;&gt;GeoNB&lt;/a&gt;, checking
+out what it was built on top of with the hope that maybe there was a way
+to get some data out of it programmatically. The underlying data is very
+open, with the government of New Brunswick releasing it in a number of
+different formats.&lt;/p&gt;
+
+&lt;p&gt;Before going that route too far, I thought it would be neat to try using
+&lt;a href=&#34;http://openlayers.org/&#34;&gt;OpenLayers&lt;/a&gt; to display the data if possible. It
+ended up being very easy to modify one of the existing examples to work
+with the ArcGIS APIs that are supporting the GeoNB site. You can check
+out the result below:&lt;/p&gt;
+
+&lt;div style=&#34;height: 500px&#34;&gt;
+  &lt;!--&lt;script async src=&#34;//jsfiddle.net/nickspacek/f3hsdqkL/1/embed/result/&#34;&gt;&lt;/script&gt;--&gt;
+  &lt;iframe width=&#34;100%&#34; height=&#34;500&#34;
+    src=&#34;//jsfiddle.net/nickspacek/f3hsdqkL/3/embedded/result/&#34;
+    allowfullscreen=&#34;allowfullscreen&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The yellow outlining is provided by the GeoNB server&amp;rsquo;s parcel boundaries
+data. Next steps are adding in the parcel information lookup and display.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Hangouts Screen Share in Full Screen</title>
+      <link>http://spacek.ca/2015/03/20/hangouts-fullscreen/</link>
+      <pubDate>Fri, 20 Mar 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://spacek.ca/2015/03/20/hangouts-fullscreen/</guid>
+      <description>&lt;p&gt;{% include JB/setup %}&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Edit&lt;/strong&gt;: I came across &lt;a href=&#34;https://chrome.google.com/webstore/detail/toggle-fullscreen-in-hang/eekfhcmpmchbhkdeplplcljcggddkffb?hl=en&#34;&gt;this extension&lt;/a&gt;
+which I assume accomplishes something similar, nice.&lt;/p&gt;
+
+&lt;p&gt;So I was messing around in a Hangouts session today trying to increase the
+other user&amp;rsquo;s screen share size, and I noticed a few HTML elements that
+controlled the size. I discovered that you can easily resize the video feed.&lt;/p&gt;
+
+&lt;p&gt;The best approach would be an extension to handle finding the proper elements
+and also hooking into some events, but a simple PoC can be seen below:&lt;/p&gt;
+
+
+
+var leftId = &#39;:v8.Sh&#39;;
+var sizeIds = [leftId, &#39;:v8.Wh&#39;, &#39;:v8.Xh&#39;, &#39;:v8.Th&#39;];
+var height = window.innerHeight + &#39;px&#39;;
+var width = window.innerWidth + &#39;px&#39;;
+
+function resize(id) {
+    var el = document.getElementById(id);
+    el.style.width = width;
+    el.style.height = height;
+}
+
+function shift(id) {
+    var el = document.getElementById(id);
+    el.style.left = &#39;0px&#39;;
+}
+
+sizeIds.forEach(resize);
+shift(leftId);
+
+
+</description>
+    </item>
+    
+    <item>
+      <title>Spring Boot web application</title>
+      <link>http://spacek.ca/2013/12/15/spring-boot-web-application/</link>
+      <pubDate>Sun, 15 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://spacek.ca/2013/12/15/spring-boot-web-application/</guid>
+      <description>
+
+&lt;p&gt;{% include JB/setup %}&lt;/p&gt;
+
+&lt;p&gt;So I tried out Spring Boot in a new project. I have to say that I like the
+idea of making Spring more accessible to a broader audience. I did come
+across a few things that really sucked up some time.&lt;/p&gt;
+
+&lt;h3 id=&#34;serving-up-jsps:fd83910005ee5c5e6456e85c9c6851f0&#34;&gt;Serving up JSPs&lt;/h3&gt;
+
+&lt;p&gt;In Spring MVC it&amp;rsquo;s pretty standard to have your View based on JSPs. There are
+other engines you can plug in to display your views of course, but most people
+are used to JSPs. Support is standard in JEE/Servlet land anyways. Plus they
+don&amp;rsquo;t really require any unexpected dependencies or much configuration at all.
+Usually.&lt;/p&gt;
+
+&lt;p&gt;I had a heck of a time figuring out why my application was saying it couldn&amp;rsquo;t
+find the index.jsp I had faithfully stuck in my &lt;strong&gt;/src/main/webapp/WEB-INF&lt;/strong&gt;
+directory, and configured as such in the &lt;code&gt;ApplicationContext&lt;/code&gt;. I headed to
+Google looking for &amp;lsquo;spring mvc &amp;ldquo;No mapping found for HTTP request&amp;rdquo;&amp;rsquo; but to my
+chagrin came up pretty empty. Finally in an unrelated post (that I can no
+longer find) someone had a code snippet like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;static class WebConfiguration extends DelegatingWebMvcConfiguration {
+  // ...
+
+  @Override
+  protected void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+    configurer.enable();
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;As it turns out, the default servlet is not enabled by default, meaning that
+only requests matching the dispatcherServlet are handled (and these only
+include Spring Controllers and the like). The default servlet is responsible
+for handling other requests, such as static content and the contents of the
+WEB-INF folder (internally only).&lt;/p&gt;
+
+&lt;p&gt;So with that solved, I ran into my next problem.&lt;/p&gt;
+
+&lt;h3 id=&#34;rendering-jsps:fd83910005ee5c5e6456e85c9c6851f0&#34;&gt;Rendering JSPs&lt;/h3&gt;
+
+&lt;p&gt;Now my JSPs were not getting rendered, they were only showing the file
+contents. This one didn&amp;rsquo;t take as long to track down, only a hour or so. The
+embedded Tomcat being used by Spring Boot (the default servlet container) does
+not include JSP rendering by default. To include it, you need to have the
+Tomcat embedded Jasper library on your classpath (it is automatically
+detected). You can do this via Maven like so:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;dependency&amp;gt;
+    &amp;lt;groupId&amp;gt;org.apache.tomcat.embed&amp;lt;/groupId&amp;gt;
+    &amp;lt;artifactId&amp;gt;tomcat-embed-jasper&amp;lt;/artifactId&amp;gt;
+    &amp;lt;scope&amp;gt;provided&amp;lt;/scope&amp;gt;
+&amp;lt;/dependency&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And there we have it. Hopefully this is useful to someone else.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Remove JSESSION ID cookie</title>
+      <link>http://spacek.ca/2013/12/03/remove-jsession-id-cookie/</link>
+      <pubDate>Tue, 03 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://spacek.ca/2013/12/03/remove-jsession-id-cookie/</guid>
+      <description>&lt;p&gt;{% include JB/setup %}&lt;/p&gt;
+
+&lt;p&gt;I made a simple little bookmarklet that will remove the JSESSIONID cookie (for
+testing purposes). We are using it to test behavior of AJAX updates when the
+session expires.&lt;/p&gt;
+
+&lt;p&gt;Here it is, drag to your bookmarks: &lt;a href=&#34;javascript:!function(){function createCookie(name,value,days){if(days){var date=new Date;date.setTime(date.getTime()+24*days*60*60*1e3);var expires=&#39;; expires=&#39;+date.toGMTString()}else var expires=&#39;&#39;;document.cookie=name+&#39;=&#39;+value+expires+&#39;; path=/&#39;}function readCookie(name){var nameEQ=name+&#39;=&#39;;var ca=document.cookie.split(&#39;;&#39;);for(var i=0;i&amp;lt;ca.length;i++){var c=ca[i];while(&#39; &#39;==c.charAt(0))c=c.substring(1,c.length);if(0==c.indexOf(nameEQ))return c.substring(nameEQ.length,c.length)}return null}function eraseCookie(name){createCookie(name,&#39;&#39;,-1)}var target=&#39;JSESSIONID&#39;;if(null==readCookie(target)){alert(&#39;No cookie named &#39;+target+&#39; found&#39;);return}if(confirm(&#39;Do you want to delete the cookie named &#39;+target+&#39;?&#39;))eraseCookie(target)}();&#34;&gt;-JSESSIONID&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;This makes use of &lt;a href=&#34;http://www.quirksmode.org/js/cookies.html&#34;&gt;Peter-Paul Koch&amp;rsquo;s code from quirksmode.com&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>HSQLDB with Hibernate: User lacks privilege or object not found</title>
+      <link>http://spacek.ca/2013/09/18/hsqldb-with-hibernate/</link>
+      <pubDate>Wed, 18 Sep 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://spacek.ca/2013/09/18/hsqldb-with-hibernate/</guid>
+      <description>&lt;p&gt;{% include JB/setup %}&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m currently working to add unit tests to a project which currently has no
+tests for its database query layer. Normally I wouldn&amp;rsquo;t worry too much, but
+there are some nasty queries that have cropped up over the years that could
+benefit from some testing.&lt;/p&gt;
+
+&lt;p&gt;This project uses Hibernate and the custom queries are written mainly in some
+MySQL-specific language. Part of the problem with adding tests has been that
+the hbm2ddl tool hasn&amp;rsquo;t been able to reliably generate the database schema due
+to some strange approaches to ID generation and other MySQL-specific code.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve managed to get the hbm2ddl operation running somewhat and am tackling
+issues as they arise. After getting some basic tests to run, I decided to go
+after one of the methods using custom SQL (in Hibernate lingo, createSQLQuery).
+One issue that took a while to figure out was this join syntax:&lt;/p&gt;
+
+
+SELECT * FROM TableA a
+JOIN TableB b USING (tableId)
+
+
+&lt;p&gt;Even though TABLEA and TABLEB both have the tableId column, I was getting
+&amp;ldquo;User lacks privilege or object not found: TABLEB.TABLEID&amp;rdquo;. Changing to this
+syntax solved the problem:&lt;/p&gt;
+
+&lt;p&gt;
+SELECT * FROM TableA a
+JOIN TableB b USING (a.tableId = b.tableId)
+&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>HSQLDB with Hibernate: addScalar</title>
+      <link>http://spacek.ca/2013/09/18/hsqldb-with-hibernate-addscalar/</link>
+      <pubDate>Wed, 18 Sep 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://spacek.ca/2013/09/18/hsqldb-with-hibernate-addscalar/</guid>
+      <description>&lt;p&gt;{% include JB/setup %}&lt;/p&gt;
+
+&lt;p&gt;To continue this series, I just have another little cautionary bit of advice
+regarding using &lt;code&gt;addScalar&lt;/code&gt; with your &lt;code&gt;createSQLQuery(...)&lt;/code&gt; operations. In
+MySQL, a query like this:&lt;/p&gt;
+
+
+SELECT obj.name, other.name, third.name
+FROM obj, other, third
+
+
+&lt;p&gt;Will give the full name of those columns in the &amp;ldquo;result set metadata&amp;rdquo; that
+Hibernate accesses. So when you use &lt;code&gt;addScalar&lt;/code&gt;, you can just say:&lt;/p&gt;
+
+
+.addScalar(&#34;obj.name&#34;)
+.addScalar(&#34;other.name&#34;)
+.addScalar(&#34;third.name&#34;)
+
+
+&lt;p&gt;However, in other database engines the columns might come back in the metadata
+as &lt;code&gt;[ name, name, name ]&lt;/code&gt;; when you try to use &lt;code&gt;addScalar&lt;/code&gt; with the full path,
+you will get an error. (I don&amp;rsquo;t believe that just calling &lt;code&gt;addScalar&lt;/code&gt; once with
+&amp;ldquo;name&amp;rdquo; will apply to each of the three occurrences either, but I haven&amp;rsquo;t
+checked).&lt;/p&gt;
+
+&lt;p&gt;The way I solved it for HSQLDB isn&amp;rsquo;t rocket science:&lt;/p&gt;
+
+&lt;p&gt;
+SELECT obj.name objName, other.name otherName, third.name thirdName
+FROM obj, other, third
+&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Another reason for 406 in Spring 3.2 and Jackson 2</title>
+      <link>http://spacek.ca/2013/09/06/another-reason-for-406-in-spring-32-and-jackson-2/</link>
+      <pubDate>Fri, 06 Sep 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://spacek.ca/2013/09/06/another-reason-for-406-in-spring-32-and-jackson-2/</guid>
+      <description>&lt;p&gt;{% include JB/setup %}&lt;/p&gt;
+
+&lt;p&gt;Just as a quick note, make sure your POJO actually has some fields. I was
+racking my brain, examining my config, and Googling fiercely when I
+discovered that the reason I kept getting a 406 in my Spring MVC 3.2 project
+was because I had just created a placeholder POJO with no fields.&lt;/p&gt;
+
+&lt;p&gt;Arg.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Google Cast: cast-receiver-list</title>
+      <link>http://spacek.ca/2013/08/16/google-cast-cast-receiver-list/</link>
+      <pubDate>Fri, 16 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://spacek.ca/2013/08/16/google-cast-cast-receiver-list/</guid>
+      <description>
+
+&lt;p&gt;{% include JB/setup %}&lt;/p&gt;
+
+&lt;h4 id=&#34;introducing-cast-receiver-list:baea1a04b0f24865095294de1a1a73c8&#34;&gt;Introducing cast-receiver-list&lt;/h4&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/nickspacek/cast-receiver-list&#34;&gt;https://github.com/nickspacek/cast-receiver-list&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve been playing around with the &lt;a href=&#34;https://developers.google.com/cast/&#34;&gt;Google Cast API&lt;/a&gt;
+a little bit, specifically the
+&lt;a href=&#34;https://developers.google.com/cast/chrome_sender&#34;&gt;Chrome Sender API&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;One thing any application will have in common is retrieving the list of
+available senders and displaying them for the user to select from. As I
+was playing with the API I decided to extract the code out into a module
+and make it available for others to use.&lt;/p&gt;
+
+&lt;p&gt;In the beginning I was using jQuery for DOM manipulation, so the first
+incaranation of the plugin uses jQuery. Since then I started playing
+with AngularJS, having had only a little bit of experience with it. So
+I thought it would be interesting to build a plugin for it as well.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/nickspacek/cast-receiver-list&#34;&gt;Here&amp;rsquo;s the project page&lt;/a&gt;.
+Currently, there&amp;rsquo;s only a very brief example of how to  use the plugins
+and both still need lots of work. They&amp;rsquo;re mostly there for a POC and as
+some sample code to get started with the Chrome Sender API.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

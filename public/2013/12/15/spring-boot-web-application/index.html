@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Spring Boot web application</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Some experiences with Spring Boot">
+  <meta name="generator" content="Hugo 0.15" />
+  <link href="" rel="alternate" type="application/rss+xml" title="development" />
+  <link href="http://spacek.ca//css/bootstrap.min.css" rel="stylesheet">
+  <link href="http://spacek.ca//css/hc.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  
+    
+    </head>
+    <body>
+<div class="nav-toggle"><i class="fa fa-bars fa-2x"></i> Herring Cove </div>
+      <div id = "wrapper">
+
+
+<div class="navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="http://spacek.ca//"><p class="navbar-brand">development</p></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+					
+					
+					<li><a href="http://spacek.ca//">Home </a></li>
+					
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+
+       
+       <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+					<img src="" />
+          <li class="sidebar-brand"><a href="http://spacek.ca//"><h1 class="brand">development</h1></a><h3>my ramblings</h3></li>
+          <hr />
+					
+						<li><a href="http://spacek.ca//">Home </a></li>
+					
+          <hr />
+          <div id="social-wrapper">
+           <li> <a href="https://twitter.com/nickspacek"><i class="fa fa-twitter-square"></i> @twitter</a></li>
+           <li> <a href="https://ca.linkedin.com/in/nick-spacek-1b01b421"><i class="fa fa-linkedin-square"></i> linkedin</a> </li>
+           <li> <a href="https://www.facebook.com/nspacek"><i class="fa fa-facebook-square"></i> facebook</a></li>
+           <li> <a href="https://github.com/nickspacek"><i class="fa fa-github-square"></i> github</a> </li>
+         </div>
+       </ul>
+     </div>
+
+
+
+     <div class="container">
+
+
+  <div id="article">
+   <div class="article-title">Spring Boot web application</div>
+   <p class="meta"><small>&nbsp;<i class="fa fa-calendar-o"></i> 2013-12-15</small></p> <hr/>
+   <div class="post">
+     
+
+<p>{% include JB/setup %}</p>
+
+<p>So I tried out Spring Boot in a new project. I have to say that I like the
+idea of making Spring more accessible to a broader audience. I did come
+across a few things that really sucked up some time.</p>
+
+<h3 id="serving-up-jsps:fd83910005ee5c5e6456e85c9c6851f0">Serving up JSPs</h3>
+
+<p>In Spring MVC it&rsquo;s pretty standard to have your View based on JSPs. There are
+other engines you can plug in to display your views of course, but most people
+are used to JSPs. Support is standard in JEE/Servlet land anyways. Plus they
+don&rsquo;t really require any unexpected dependencies or much configuration at all.
+Usually.</p>
+
+<p>I had a heck of a time figuring out why my application was saying it couldn&rsquo;t
+find the index.jsp I had faithfully stuck in my <strong>/src/main/webapp/WEB-INF</strong>
+directory, and configured as such in the <code>ApplicationContext</code>. I headed to
+Google looking for &lsquo;spring mvc &ldquo;No mapping found for HTTP request&rdquo;&rsquo; but to my
+chagrin came up pretty empty. Finally in an unrelated post (that I can no
+longer find) someone had a code snippet like this:</p>
+
+<pre><code>static class WebConfiguration extends DelegatingWebMvcConfiguration {
+  // ...
+
+  @Override
+  protected void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+    configurer.enable();
+  }
+}
+</code></pre>
+
+<p>As it turns out, the default servlet is not enabled by default, meaning that
+only requests matching the dispatcherServlet are handled (and these only
+include Spring Controllers and the like). The default servlet is responsible
+for handling other requests, such as static content and the contents of the
+WEB-INF folder (internally only).</p>
+
+<p>So with that solved, I ran into my next problem.</p>
+
+<h3 id="rendering-jsps:fd83910005ee5c5e6456e85c9c6851f0">Rendering JSPs</h3>
+
+<p>Now my JSPs were not getting rendered, they were only showing the file
+contents. This one didn&rsquo;t take as long to track down, only a hour or so. The
+embedded Tomcat being used by Spring Boot (the default servlet container) does
+not include JSP rendering by default. To include it, you need to have the
+Tomcat embedded Jasper library on your classpath (it is automatically
+detected). You can do this via Maven like so:</p>
+
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.tomcat.embed&lt;/groupId&gt;
+    &lt;artifactId&gt;tomcat-embed-jasper&lt;/artifactId&gt;
+    &lt;scope&gt;provided&lt;/scope&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<p>And there we have it. Hopefully this is useful to someone else.</p>
+
+   </div>
+ </div>
+
+
+ <a href="https://twitter.com/share" class="twitter-share-button " data-size="small" data-count="none">Tweet</a>
+ <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+ <ul class="pager">
+      &nbsp;<li class="previous"><a href="http://spacek.ca/2015/03/20/hangouts-fullscreen/"> Hangouts Screen Share in Full Screen</a></li>
+      &nbsp;<li class="next"><a href="http://spacek.ca/2013/12/03/remove-jsession-id-cookie/"> Remove JSESSION ID cookie</a></li>
+</ul>
+
+
+
+    </ul>
+    </div>
+    <footer>
+
+        <p class="text-muted credit">&copy; 2016. All rights reserved. </p>
+    </footer>
+ 
+    <script src="http://spacek.ca//js/jquery-1.10.2.min.js"></script>
+    <script src="http://spacek.ca//js/bootstrap.min.js"></script>
+    <script src="http://spacek.ca//js/bootstrap.js"></script>
+    <script type="text/javascript" src="http://spacek.ca//js/hc.js"></script>
+</body>
+
+</html>
+

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>GeoNB Mobile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.15" />
+  <link href="" rel="alternate" type="application/rss+xml" title="development" />
+  <link href="http://spacek.ca//css/bootstrap.min.css" rel="stylesheet">
+  <link href="http://spacek.ca//css/hc.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  
+    
+    </head>
+    <body>
+<div class="nav-toggle"><i class="fa fa-bars fa-2x"></i> Herring Cove </div>
+      <div id = "wrapper">
+
+
+<div class="navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="http://spacek.ca//"><p class="navbar-brand">development</p></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+					
+					
+					<li><a href="http://spacek.ca//">Home </a></li>
+					
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+
+       
+       <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+					<img src="" />
+          <li class="sidebar-brand"><a href="http://spacek.ca//"><h1 class="brand">development</h1></a><h3>my ramblings</h3></li>
+          <hr />
+					
+						<li><a href="http://spacek.ca//">Home </a></li>
+					
+          <hr />
+          <div id="social-wrapper">
+           <li> <a href="https://twitter.com/nickspacek"><i class="fa fa-twitter-square"></i> @twitter</a></li>
+           <li> <a href="https://ca.linkedin.com/in/nick-spacek-1b01b421"><i class="fa fa-linkedin-square"></i> linkedin</a> </li>
+           <li> <a href="https://www.facebook.com/nspacek"><i class="fa fa-facebook-square"></i> facebook</a></li>
+           <li> <a href="https://github.com/nickspacek"><i class="fa fa-github-square"></i> github</a> </li>
+         </div>
+       </ul>
+     </div>
+
+
+
+     <div class="container">
+
+
+  <div id="article">
+   <div class="article-title">GeoNB Mobile</div>
+   <p class="meta"><small>&nbsp;<i class="fa fa-calendar-o"></i> 2016-09-26</small></p> <hr/>
+   <div class="post">
+     <p>I was messing around with <a href="http://www.snb.ca/geonb1/">GeoNB</a>, checking
+out what it was built on top of with the hope that maybe there was a way
+to get some data out of it programmatically. The underlying data is very
+open, with the government of New Brunswick releasing it in a number of
+different formats.</p>
+
+<p>Before going that route too far, I thought it would be neat to try using
+<a href="http://openlayers.org/">OpenLayers</a> to display the data if possible. It
+ended up being very easy to modify one of the existing examples to work
+with the ArcGIS APIs that are supporting the GeoNB site. You can check
+out the result below:</p>
+
+<div style="height: 500px">
+  <!--<script async src="//jsfiddle.net/nickspacek/f3hsdqkL/1/embed/result/"></script>-->
+  <iframe width="100%" height="500"
+    src="//jsfiddle.net/nickspacek/f3hsdqkL/3/embedded/result/"
+    allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+</div>
+
+<p>The yellow outlining is provided by the GeoNB server&rsquo;s parcel boundaries
+data. Next steps are adding in the parcel information lookup and display.</p>
+
+   </div>
+ </div>
+
+
+ <a href="https://twitter.com/share" class="twitter-share-button " data-size="small" data-count="none">Tweet</a>
+ <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+ <ul class="pager">
+     
+      &nbsp;<li class="next"><a href="http://spacek.ca/2015/03/20/hangouts-fullscreen/"> Hangouts Screen Share in Full Screen</a></li>
+</ul>
+
+
+
+    </ul>
+    </div>
+    <footer>
+
+        <p class="text-muted credit">&copy; 2016. All rights reserved. </p>
+    </footer>
+ 
+    <script src="http://spacek.ca//js/jquery-1.10.2.min.js"></script>
+    <script src="http://spacek.ca//js/bootstrap.min.js"></script>
+    <script src="http://spacek.ca//js/bootstrap.js"></script>
+    <script type="text/javascript" src="http://spacek.ca//js/hc.js"></script>
+</body>
+
+</html>
+
